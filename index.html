@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Developer Portfolio & GitHub Projects Manager</title>
+  <style>
+    :root {
+      --bg-dark: #0d1117;
+      --card-bg: #161b22;
+      --border-color: #30363d;
+      --accent-green: #238636;
+      --accent-blue: #58a6ff;
+      --accent-purple: #bc8cff;
+      --accent-orange: #f0883e;
+      --text-main: #c9d1d9;
+      --text-muted: #8b949e;
+      --text-bright: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 900px;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 1.5rem;
+    }
+
+    h1 {
+      color: var(--text-bright);
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p.subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+    }
+
+    /* USERNAME SETTINGS */
+    .username-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .username-input-group {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .username-input-group label {
+      font-weight: 600;
+      color: var(--text-bright);
+      font-size: 0.9rem;
+    }
+
+    input[type="text"] {
+      background: var(--bg-dark);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 0.5rem 0.8rem;
+      color: var(--text-bright);
+      font-size: 0.9rem;
+      width: 100%;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: var(--accent-blue);
+    }
+
+    .save-btn {
+      background: var(--accent-green);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      padding: 0.55rem 1.2rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background 0.2s;
+    }
+
+    .save-btn:hover {
+      background: #2ea043;
+    }
+
+    /* PROJECT GRID */
+    .section-title {
+      color: var(--text-bright);
+      font-size: 1.25rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 3rem;
+    }
+
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.25rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+
+    .project-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--accent-blue);
+    }
+
+    .card-header {
+      margin-bottom: 0.75rem;
+    }
+
+    .card-title {
+      color: var(--accent-blue);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .card-desc {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+
+    .card-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 1rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 0.75rem;
+    }
+
+    .btn-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.45rem 0.75rem;
+      border-radius: 6px;
+      text-decoration: none;
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+
+    .btn-live {
+      background: rgba(88, 166, 255, 0.15);
+      color: var(--accent-blue);
+      border: 1px solid rgba(88, 166, 255, 0.3);
+    }
+
+    .btn-live:hover {
+      background: rgba(88, 166, 255, 0.25);
+    }
+
+    .btn-repo {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+    }
+
+    .btn-repo:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .btn-license {
+      background: rgba(188, 140, 255, 0.12);
+      color: var(--accent-purple);
+      border: 1px solid rgba(188, 140, 255, 0.3);
+    }
+
+    .btn-license:hover {
+      background: rgba(188, 140, 255, 0.22);
+    }
+
+    /* LICENSE GUIDE SECTION */
+    .guide-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 1.5rem;
+    }
+
+    .guide-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .step-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+
+    .step-num {
+      color: var(--accent-orange);
+      font-weight: 800;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      margin-bottom: 0.3rem;
+    }
+
+    .step-title {
+      color: var(--text-bright);
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .step-desc {
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>📁 Projects Dashboard</h1>
+      <p class="subtitle">View all your deployed web apps and manage open-source licenses in one place</p>
+    </header>
+
+    <!-- USERNAME CONFIG -->
+    <div class="username-box">
+      <div class="username-input-group">
+        <label for="gh-username">GitHub Username:</label>
+        <input type="text" id="gh-username" placeholder="e.g. your-github-username" value="your-username">
+      </div>
+      <button class="save-btn" onclick="updateLinks()">Update Links</button>
+    </div>
+
+    <!-- PROJECTS LIST -->
+    <div class="section-title">🚀 My Web Apps</div>
+    <div class="projects-grid">
+      
+      <!-- AnimeKlasik -->
+      <div class="project-card">
+        <div class="card-header">
+          <div class="card-title">AnimeKlasik</div>
+          <div class="card-desc">Batang 90s Tagalized anime trivia quiz app with sound effects and timers.</div>
+        </div>
+        <div class="card-links">
+          <a id="live-animeklasik" class="btn-live" href="#" target="_blank"><span>🌐 Live App</span> <span>➔</span></a>
+          <a id="repo-animeklasik" class="btn-repo" href="#" target="_blank"><span>💻 Repository</span> <span>➔</span></a>
+          <a id="license-animeklasik" class="btn-license" href="#" target="_blank"><span>📜 Add Free MIT License</span> <span>+</span></a>
+        </div>
+      </div>
+
+      <!-- BrainSpark -->
+      <div class="project-card">
+        <div class="card-header">
+          <div class="card-title">BrainSpark</div>
+          <div class="card-desc">High School reviewer trivia game covering Science, Math, History, and Literature.</div>
+        </div>
+        <div class="card-links">
+          <a id="live-brainspark" class="btn-live" href="#" target="_blank"><span>🌐 Live App</span> <span>➔</span></a>
+          <a id="repo-brainspark" class="btn-repo" href="#" target="_blank"><span>💻 Repository</span> <span>➔</span></a>
+          <a id="license-brainspark" class="btn-license" href="#" target="_blank"><span>📜 Add Free MIT License</span> <span>+</span></a>
+        </div>
+      </div>
+
+      <!-- GallopPick -->
+      <div class="project-card">
+        <div class="card-header">
+          <div class="card-title">GallopPick</div>
+          <div class="card-desc">Interactive mobile-responsive raffle picker and lucky draw tool.</div>
+        </div>
+        <div class="card-links">
+          <a id="live-galloppick" class="btn-live" href="#" target="_blank"><span>🌐 Live App</span> <span>➔</span></a>
+          <a id="repo-galloppick" class="btn-repo" href="#" target="_blank"><span>💻 Repository</span> <span>➔</span></a>
+          <a id="license-galloppick" class="btn-license" href="#" target="_blank"><span>📜 Add Free MIT License</span> <span>+</span></a>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- LICENSE GUIDE -->
+    <div class="guide-box">
+      <div class="section-title" style="margin-bottom: 0.5rem;">📜 How to Add Free MIT Licenses</div>
+      <p class="subtitle" style="text-align: left; margin-bottom: 1rem;">
+        Adding a license shields you from legal liability and proves authorship. It costs nothing and takes 30 seconds!
+      </p>
+      
+      <div class="guide-steps">
+        <div class="step-item">
+          <div class="step-num">Step 1</div>
+          <div class="step-title">Click "Add Free MIT License"</div>
+          <div class="step-desc">Click the purple license button above for any project you want to protect.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">Step 2</div>
+          <div class="step-title">Choose Template</div>
+          <div class="step-desc">GitHub will ask to choose a license. Click "Choose a license template" on the right.</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">Step 3</div>
+          <div class="step-title">Select MIT License</div>
+          <div class="step-desc">Select <strong>MIT License</strong> from the left menu and click "Review and submit".</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">Step 4</div>
+          <div class="step-title">Commit File</div>
+          <div class="step-desc">Click the green "Commit changes..." button. Your repository is now legally protected!</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const projects = ['animeklasik', 'brainspark', 'galloppick'];
+
+    function updateLinks() {
+      const usernameInput = document.getElementById('gh-username').value.trim();
+      if (!usernameInput) return;
+
+      // Save to localStorage
+      localStorage.setItem('gh_portfolio_username', usernameInput);
+
+      projects.forEach(repo => {
+        const liveLink = `https://${usernameInput}.github.io/${repo}/`;
+        const repoLink = `https://github.com/${usernameInput}/${repo}`;
+        const licenseLink = `https://github.com/${usernameInput}/${repo}/community/license/new?filename=LICENSE`;
+
+        document.getElementById(`live-${repo}`).href = liveLink;
+        document.getElementById(`repo-${repo}`).href = repoLink;
+        document.getElementById(`license-${repo}`).href = licenseLink;
+      });
+    }
+
+    // Load saved username on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedUser = localStorage.getItem('gh_portfolio_username');
+      if (savedUser) {
+        document.getElementById('gh-username').value = savedUser;
+      }
+      updateLinks();
+    });
+  </script>
+</body>
+</html>
